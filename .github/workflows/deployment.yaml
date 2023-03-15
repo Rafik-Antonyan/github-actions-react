@@ -1,7 +1,7 @@
 name: Deploy React App
 on: 
   push: 
-    branches:
+    branche:
       - master
       paths-ignore:
         - '.github/workflows/*'
