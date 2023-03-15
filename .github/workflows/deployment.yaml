@@ -1,14 +1,19 @@
 name: Deploy React App
-on: 
-  push: 
+on:
+  push:
     branches:
       - master
-jobs: 
+jobs:
   my_test:
     runs-on: ubuntu-latest
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: my-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependecies
         run: npm ci
       - name: Test application
@@ -19,16 +24,26 @@ jobs:
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: my-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependecies
         run: npm ci
       - name: Lint application
         run: npm run lint
-  my_build: 
+  my_build:
     runs-on: ubuntu-latest
     needs: my_lint
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: my-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependecies
         run: npm ci
       - name: Build application
